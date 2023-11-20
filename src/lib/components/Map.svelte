@@ -2,7 +2,7 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
 
-  export let elements: Validation.Element[]
+  export let elements: Validation.Element[];
 
   onMount(async () => {
     await import("leaflet");
@@ -13,9 +13,16 @@
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
     elements.forEach((element) => {
-      window.L.marker([element.lat, element.lon, 0]).addTo(map);
-    })
-
+      if (element.tags["name:ja"] !== undefined) {
+        window.L.marker([element.lat, element.lon, 0])
+          .addTo(map)
+          .bindPopup(element.tags["name:ja"]);
+      } else if (element.tags.name !== undefined) {
+        window.L.marker([element.lat, element.lon, 0])
+          .addTo(map)
+          .bindPopup(element.tags.name);
+      }
+    });
   });
 </script>
 
