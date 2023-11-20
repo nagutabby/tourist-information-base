@@ -13,11 +13,11 @@
         </h1>
       </a>
     {:else if element.tags.name !== undefined}
-    <a href="/locations/{element.id}">
-      <h1 class="text-3xl">
-        {element.tags["name"]}
-      </h1>
-    </a>
+      <a href="/locations/{element.id}">
+        <h1 class="text-3xl">
+          {element.tags["name"]}
+        </h1>
+      </a>
     {/if}
   {/if}
 {/each}
