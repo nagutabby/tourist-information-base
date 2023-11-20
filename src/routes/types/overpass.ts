@@ -3,14 +3,14 @@ namespace Validation {
     version: number;
     generator: string;
     osm3s: Osm3s;
-    elements: Elements[];
+    elements: Element[];
   }
   interface Osm3s {
     timestamp_osm_base: string;
     timestamp_osm_areas_base: string;
     copyright: string;
   }
-  interface Elements {
+  export interface Element {
     type: string;
     id: number;
     lat: number;

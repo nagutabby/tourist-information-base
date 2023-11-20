@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-
+  import Map from "$lib/components/Map.svelte";
   export let data: PageData;
 </script>
+
+<Map elements={data.elements} />
 
 {#each data.elements as element}
   {#if element.tags.attraction !== "animal"}
