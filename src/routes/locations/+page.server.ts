@@ -6,4 +6,4 @@ export const load: PageServerLoad = (async () => {
   return location;
 })
 
-export const prerender = true;
+export const prerender = false;
