@@ -22,6 +22,7 @@ namespace Validation {
     "addr:postcode"?: string;
     "addr:street"?: string;
     amenity?: string;
+    attraction?: string;
     attribution?: string;
     information?: string;
     name?: string;
