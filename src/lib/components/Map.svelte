@@ -25,7 +25,7 @@
     }).addTo(map);
     locationContent.forEach((location) => {
       L.marker([location.lat, location.lon], { id: location.id } as MarkerOptions)
-        .addTo(map).bindTooltip(`サムネイル: <img src="${location.thumbnailUrl}"/>`).openTooltip().closeTooltip()
+        .addTo(map).bindTooltip(`サムネイル: <img src="${location.thumbnailUrl}"/>`)
         .on("click", function (this: Marker) {
           const options = this.options as L.MarkerOptions;
           console.log(options.id);
