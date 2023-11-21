@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Marker } from "leaflet";
+  import type { Marker, MarkerOptions } from "leaflet";
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
 
@@ -14,10 +14,11 @@
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
     elements.forEach((element) => {
-      L.marker([element.lat, element.lon], { id: element.id })
+      L.marker([element.lat, element.lon], { id: element.id } as MarkerOptions)
         .addTo(map)
         .on("click", function (this: Marker) {
-          console.log(this.options.id);
+          const options = this.options as L.MarkerOptions;
+          console.log(options.id);
         });
     });
   });
