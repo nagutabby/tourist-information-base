@@ -6,7 +6,7 @@
   import iconShadow from "leaflet/dist/images/marker-shadow.png";
   import { onMount } from "svelte";
 
-  export let elements: Validation.Element[];
+  export let locationContent: Validation.Element[];
 
   onMount(async () => {
     const L = await import("leaflet");
@@ -23,9 +23,9 @@
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    elements.forEach((element) => {
-      L.marker([element.lat, element.lon], { id: element.id } as MarkerOptions)
-        .addTo(map)
+    locationContent.forEach((location) => {
+      L.marker([location.lat, location.lon], { id: location.id } as MarkerOptions)
+        .addTo(map).bindTooltip(`サムネイル: <img src="${location.thumbnailUrl}"/>`).openTooltip().closeTooltip()
         .on("click", function (this: Marker) {
           const options = this.options as L.MarkerOptions;
           console.log(options.id);

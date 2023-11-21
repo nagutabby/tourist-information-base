@@ -16,6 +16,11 @@ namespace Validation {
     lat: number;
     lon: number;
     tags: Tags;
+    albumId?: number;
+    title?: string;
+    url?: string;
+    thumbnailUrl?: string;
+
   }
   interface Tags {
     "addr:housenumber"?: string;

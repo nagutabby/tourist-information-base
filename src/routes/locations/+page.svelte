@@ -4,4 +4,4 @@
   export let data: PageData;
 </script>
 
-<Map elements={data.elements} />
+<Map locationContent={data.locationContent} />
