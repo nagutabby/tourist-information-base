@@ -16,12 +16,28 @@ export const load: PageServerLoad = (async ({ url }) => {
     delete photo["albumId"];
   });
 
-  let data: Validation.LocationList = {locations: []};
+  let locations: Validation.LocationList = { locations: [] };
   for (let i = 0; i < elements.length; i++) {
     const locationKey = String(i);
     const locationValue: Validation.Element = Object.assign({}, elements[i], photosData[i]);
-    const location = {[locationKey]: locationValue};
-    data["locations"].push(location);
+    const location = { [locationKey]: locationValue };
+    locations["locations"].push(location);
+  }
+  let openGraph: Validation.OpenGraph = { title: "", description: "" }
+  if (url.searchParams.get("prefecture") === null) {
+    openGraph = {
+      title: "観光名所の一覧",
+      description: "観光名所の一覧"
+    }
+  } else {
+    openGraph = {
+      title: url.searchParams.get("prefecture") + "の観光名所の一覧",
+      description: url.searchParams.get("prefecture") + "の観光名所の一覧"
+    }
+  }
+  const data = {
+    ...locations,
+    ...openGraph
   }
   return data;
 })

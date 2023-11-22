@@ -1,8 +1,7 @@
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async () => {
-
-  return {
+  const prefectures = {
     prefectures: ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
       "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
       "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
@@ -11,6 +10,14 @@ export const load: PageLoad = async () => {
       "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
       "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"]
   }
+  const openGraph: Validation.OpenGraph = {
+    title: "観光名所を探す",
+    description: "観光名所を探す"
+  }
+  const data = {
+    ...prefectures,
+    ...openGraph
+  }
+  return data;
 }
-
 export const prerender = false;
