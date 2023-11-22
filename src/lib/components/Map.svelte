@@ -45,9 +45,9 @@
       } as MarkerOptions)
         .addTo(map)
         .bindTooltip(
-          `<h1 class="my-2">
+          `<p class="my-2">
             ${getAttractionName(element)}
-          </h1><img src="${element.thumbnailUrl}"/>`,
+          </p><img src="${element.thumbnailUrl}"/>`,
         )
         .on("click", function (this: Marker) {
           const options = this.options as L.MarkerOptions;
@@ -65,7 +65,9 @@
 <div id="map" class="w-[100vw] h-[100vh]">
   <dialog id="location-detail" class="modal">
     <div class="modal-box">
-      <h3 class="font-bold text-lg">{locationName}</h3>
+      {#key locationName}
+        <h1 class="font-bold text-lg">{locationName}</h1>
+      {/key}
       {#key locationImageUrl}
         <img src={locationImageUrl} alt="" />
       {/key}
