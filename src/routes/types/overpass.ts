@@ -12,7 +12,7 @@ namespace Validation {
   }
   export interface Element {
     type: string;
-    id: number;
+    id?: number;
     lat: number;
     lon: number;
     tags: Tags;
@@ -20,7 +20,6 @@ namespace Validation {
     title?: string;
     url?: string;
     thumbnailUrl?: string;
-
   }
   interface Tags {
     "addr:housenumber"?: string;

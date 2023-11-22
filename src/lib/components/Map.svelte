@@ -6,7 +6,7 @@
   import iconShadow from "leaflet/dist/images/marker-shadow.png";
   import { onMount } from "svelte";
 
-  export let locationContent: Validation.Element[];
+  export let locations: Validation.Location[];
 
   onMount(async () => {
     const L = await import("leaflet");
@@ -14,8 +14,8 @@
       iconRetinaUrl: iconRetina,
       iconUrl: icon,
       shadowUrl: iconShadow,
-      iconSize: [24,36],
-      iconAnchor: [12,36]
+      iconSize: [24, 36],
+      iconAnchor: [12, 36],
     });
     const map = L.map("map").setView([35.39, 139.44], 6);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -23,15 +23,32 @@
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-    locationContent.forEach((location) => {
-      L.marker([location.lat, location.lon], { id: location.id } as MarkerOptions)
-        .addTo(map).bindTooltip(`サムネイル: <img src="${location.thumbnailUrl}"/>`)
+    locations.forEach((location) => {
+      const element = Object.values(location)[0];
+      L.marker([element.lat, element.lon], {
+        id: Object.keys(location)[0],
+      } as MarkerOptions)
+        .addTo(map)
+        .bindTooltip(
+          `<h1 class="my-2">${element.title}</h1><img src="${element.thumbnailUrl}"/>`,
+        )
         .on("click", function (this: Marker) {
           const options = this.options as L.MarkerOptions;
-          console.log(options.id);
+          const element = Object.values(locations[options.id])[0];
+          console.log(element.url);
         });
     });
   });
 </script>
 
 <div id="map" class="w-[100vw] h-[100vh]" />
+
+<style>
+  :global(.leaflet-tooltip) {
+    width: 20vw;
+    white-space: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>

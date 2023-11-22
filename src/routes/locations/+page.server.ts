@@ -1,23 +1,25 @@
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = (async ({ url }) => {
-  const locationsResponse = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent('[out:json];area[name="') + encodeURIComponent(url.searchParams.get("prefecture")!) + encodeURIComponent('"];node(area)[tourism=attraction];out;'));
-  const locations: Validation.Overpass = await locationsResponse.json();
-  const elements = locations.elements;
+  const overpassResponse = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent('[out:json];area[name="') + encodeURIComponent(url.searchParams.get("prefecture")!) + encodeURIComponent('"];node(area)[tourism=attraction];out;'));
+  const overpassData: Validation.Overpass = await overpassResponse.json();
+  const elements = overpassData.elements;
 
   const photosResponse = await fetch("https://jsonplaceholder.typicode.com/photos/");
-  const photos = await photosResponse.json();
-  const photosOfSameSizeAsElements = photos.slice(0, elements.length);
-  let photosOfSameSizeAsElementsWithoutKeys: Validation.Photo[] = [];
+  const photosData = await photosResponse.json();
+  const photosOfSameSizeAsElements = photosData.slice(0, elements.length);
 
   photosOfSameSizeAsElements.forEach((photo: Validation.Photo) => {
     delete photo["id"];
-    photosOfSameSizeAsElementsWithoutKeys.push(photo);
+    delete photo["albumId"];
   });
 
-  let data: Validation.LocationContent = { locationContent: [] }
+  let data: Validation.LocationList = {locations: []};
   for (let i = 0; i < elements.length; i++) {
-    data.locationContent.push(Object.assign({}, elements[i], photos[i]))
+    const locationKey = String(i);
+    const locationValue: Validation.Element = Object.assign({}, elements[i], photosData[i]);
+    const location = {[locationKey]: locationValue};
+    data["locations"].push(location);
   }
   return data;
 })

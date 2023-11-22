@@ -1,6 +1,6 @@
 namespace Validation {
   export interface Photo {
-    albumId: number;
+    albumId?: number;
     id?: number;
     title: string;
     url: string;
