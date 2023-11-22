@@ -1,11 +1,13 @@
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = (async ({ url }) => {
-  const overpassResponse = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent('[out:json];area[name="') + encodeURIComponent(url.searchParams.get("prefecture")!) + encodeURIComponent('"];node(area)[tourism=attraction];out;'));
+  const overpassPromise = fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent('[out:json];area[name="') + encodeURIComponent(url.searchParams.get("prefecture")!) + encodeURIComponent('"];node(area)[tourism=attraction];out;'));
+  const photosPromise = fetch("https://jsonplaceholder.typicode.com/photos/");
+  const [overpassResponse, photosResponse] = await Promise.all([overpassPromise, photosPromise])
+
   const overpassData: Validation.Overpass = await overpassResponse.json();
   const elements = overpassData.elements;
 
-  const photosResponse = await fetch("https://jsonplaceholder.typicode.com/photos/");
   const photosData = await photosResponse.json();
   const photosOfSameSizeAsElements = photosData.slice(0, elements.length);
 
