@@ -47,7 +47,7 @@
       } as MarkerOptions)
         .addTo(map)
         .bindTooltip(
-          `<p class="mb-2">
+          `<p class="mb-1">
             ${getAttractionName(element)}
           </p><img src="${element.thumbnailUrl}"/>`,
         )
