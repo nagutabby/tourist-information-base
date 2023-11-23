@@ -63,15 +63,14 @@
 </script>
 
 <div id="map" class="w-[100vw] h-[100vh]">
-  <dialog id="location-detail" class="modal">
+  <dialog id="location-detail" class="modal image-full">
     <div class="modal-box">
       {#key locationName}
-        <h1 class="font-bold text-lg">{locationName}</h1>
+        <h1 class="font-bold text-lg pb-2">{locationName}</h1>
       {/key}
       {#key locationImageUrl}
         <img src={locationImageUrl} alt="" />
       {/key}
-      <p class="py-4">ここに説明が入ります</p>
     </div>
     <form method="dialog" class="modal-backdrop">
       <button>閉じる</button>
