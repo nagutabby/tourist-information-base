@@ -5,4 +5,8 @@
   export let data: PageData;
 </script>
 
-<Map locations={data.locations} />
+<Map
+  locations={data.locations}
+  prefectureLat={data.lat}
+  prefectureLon={data.lon}
+/>

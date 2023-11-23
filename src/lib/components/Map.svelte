@@ -7,6 +7,8 @@
   import { onMount } from "svelte";
 
   export let locations: Validation.Location[];
+  export let prefectureLat: number;
+  export let prefectureLon: number;
 
   let locationImageUrl = "";
   let locationName = "";
@@ -31,7 +33,7 @@
       iconSize: [24, 36],
       iconAnchor: [12, 36],
     });
-    const map = L.map("map").setView([35.39, 139.44], 6);
+    const map = L.map("map").setView([prefectureLat, prefectureLon], 9);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution:
@@ -45,7 +47,7 @@
       } as MarkerOptions)
         .addTo(map)
         .bindTooltip(
-          `<p class="my-2">
+          `<p class="mb-2">
             ${getAttractionName(element)}
           </p><img src="${element.thumbnailUrl}"/>`,
         )
