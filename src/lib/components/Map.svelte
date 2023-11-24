@@ -24,6 +24,23 @@
       return element.title;
     }
   };
+
+  const lon2tile = (lon: number, zoom: number) => {
+    return Math.floor(((lon + 180) / 360) * Math.pow(2, zoom));
+  };
+  const lat2tile = (lat: number, zoom: number) => {
+    return Math.floor(
+      ((1 -
+        Math.log(
+          Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180),
+        ) /
+          Math.PI) /
+        2) *
+        Math.pow(2, zoom),
+    );
+  };
+  const zoom = 9;
+
   onMount(async () => {
     const L = await import("leaflet");
     L.Marker.prototype.options.icon = L.icon({
@@ -33,15 +50,18 @@
       iconSize: [24, 36],
       iconAnchor: [12, 36],
     });
-    const map = L.map("map").setView([prefectureLat, prefectureLon], 9);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      minZoom: 9,
-      // デフォルト値を明示的に指定
-      maxZoom: 18,
-      attribution:
-        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      className: "map-tiles",
-    }).addTo(map);
+    const map = L.map("map").setView([prefectureLat, prefectureLon], zoom);
+    const tileLayer = L.tileLayer(
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        minZoom: 9,
+        // デフォルト値を明示的に指定
+        maxZoom: 18,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        className: "map-tiles",
+      },
+    ).addTo(map);
     locations.forEach((location) => {
       const element = Object.values(location)[0];
       L.marker([element.lat, element.lon], {
@@ -62,6 +82,31 @@
             document.getElementById("location-detail")! as HTMLFormElement
           ).showModal();
         });
+    });
+
+    const mapBounds = map.getBounds();
+
+    const northEdge = mapBounds.getNorth();
+    const westEdge = mapBounds.getWest();
+    const southEdge = mapBounds.getSouth();
+    const eastEdge = mapBounds.getEast();
+
+    const topTile = lat2tile(northEdge, zoom);
+    const leftTile = lon2tile(westEdge, zoom);
+    const bottomTile = lat2tile(southEdge, zoom);
+    const rightTile = lon2tile(eastEdge, zoom);
+
+    const width = Math.abs(leftTile - rightTile) + 1;
+    const height = Math.abs(topTile - bottomTile) + 1;
+
+    const totalTiles = width * height;
+    console.log(`最初の地図を表示するために読み込んだタイル数: ${totalTiles}`);
+
+    let tileCount = 0;
+    tileLayer.addEventListener("tileload", async (event) => {
+      console.log(event.coords);
+      tileCount += 1;
+      console.log(`最初のロードから現在までに読み込んだタイル数: ${tileCount}`)
     });
   });
 </script>
