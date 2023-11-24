@@ -35,6 +35,8 @@
     });
     const map = L.map("map").setView([prefectureLat, prefectureLon], 9);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      minZoom: 9,
+      // デフォルト値を明示的に指定
       maxZoom: 18,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
