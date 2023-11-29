@@ -52,7 +52,7 @@
     });
     const map = L.map("map").setView([prefectureLat, prefectureLon], zoom);
     const tileLayer = L.tileLayer(
-      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "https://tile.openstreetmap.jp/{z}/{x}/{y}.png",
       {
         minZoom: 9,
         // デフォルト値を明示的に指定
