@@ -245,4 +245,4 @@ export const load: PageServerLoad = (async ({ url }) => {
   return data;
 })
 
-export const prerender = true;
+export const prerender = false;

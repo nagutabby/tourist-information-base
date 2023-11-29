@@ -20,4 +20,4 @@ export const load: PageLoad = async () => {
   }
   return data;
 }
-export const prerender = true;
+export const prerender = false;
