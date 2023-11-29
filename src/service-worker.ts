@@ -13,13 +13,13 @@ const ASSETS = [
 ];
 
 worker.addEventListener('install', (event) => {
-  // Create a new cache and add all files to it
-  async function addFilesToCache() {
-    const cache = await caches.open(CACHE);
-    await cache.addAll(ASSETS);
-  }
+  //  Create a new cache and add all files to it
+  //  async function addFilesToCache() {
+  //    const cache = await caches.open(CACHE);
+  //    await cache.addAll(ASSETS);
+  //  }
 
-  event.waitUntil(addFilesToCache());
+  //  event.waitUntil(addFilesToCache());
 });
 
 worker.addEventListener('activate', (event) => {
@@ -42,19 +42,19 @@ worker.addEventListener('fetch', (event) => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
 
-    if (ASSETS.includes(url.pathname)) {
-      const response = await cache.match(url.pathname);
-      if (response) {
-        return response;
-      }
-    }
+    //    if (ASSETS.includes(url.pathname)) {
+    //      const response = await cache.match(url.pathname);
+    //      if (response) {
+    //        return response;
+    //      }
+    //    }
 
     const response = await cache.match(event.request);
     if (response) {
       return response;
     } else {
       const response = await fetch(event.request, { mode: "no-cors" });
-      if (response.ok) {
+      if (event.request.destination === "image") {
         cache.put(event.request, response.clone());
       }
       return response;
