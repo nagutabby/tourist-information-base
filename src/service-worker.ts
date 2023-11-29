@@ -54,7 +54,9 @@ worker.addEventListener('fetch', (event) => {
       return response;
     } else {
       const response = await fetch(event.request, { mode: "no-cors" });
-      cache.put(event.request, response.clone());
+      if (response.ok) {
+        cache.put(event.request, response.clone());
+      }
       return response;
     }
   })()
