@@ -138,12 +138,4 @@
     flex-direction: column;
     justify-content: center;
   }
-  :global(
-      .leaflet-layer,
-      .leaflet-control-zoom-in,
-      .leaflet-control-zoom-out,
-      .leaflet-control-attribution
-    ) {
-    filter: invert(90%) hue-rotate(180deg) brightness(100%) contrast(90%);
-  }
 </style>
